@@ -15,9 +15,15 @@ function currentPage() {
   return file === "" ? "index.html" : file;
 }
 
-function waLink(text) {
+const digits = (phone) => phone.replace(/\D/g, "");
+
+function waLink(text, phone = SITE.phones[0]) {
   const msg = text ? `?text=${encodeURIComponent(text)}` : "";
-  return `https://wa.me/${SITE.whatsapp}${msg}`;
+  return `https://wa.me/${digits(phone)}${msg}`;
+}
+
+function telLink(phone = SITE.phones[0]) {
+  return `tel:+${digits(phone)}`;
 }
 
 function renderHeader() {
@@ -69,8 +75,8 @@ function renderFooter() {
         <h4>Visit Us</h4>
         <ul>
           <li>${SITE.address}</li>
-          <li><a href="tel:${SITE.phone.replace(/\s/g, "")}">${SITE.phone}</a></li>
-          <li><a href="mailto:${SITE.email}">${SITE.email}</a></li>
+          ${SITE.phones.map((ph) => `<li><a href="${telLink(ph)}">${ph}</a></li>`).join("")}
+          ${SITE.emails.map((em) => `<li><a href="mailto:${em}">${em}</a></li>`).join("")}
         </ul>
       </div>
     </div>
@@ -185,8 +191,16 @@ function fillSiteInfo() {
   document.querySelectorAll("[data-site]").forEach((el) => {
     el.textContent = SITE[el.dataset.site];
   });
-  document.querySelectorAll("[data-tel]").forEach((el) => (el.href = `tel:${SITE.phone.replace(/\s/g, "")}`));
-  document.querySelectorAll("[data-mail]").forEach((el) => (el.href = `mailto:${SITE.email}`));
+  document.querySelectorAll("[data-tel]").forEach((el) => (el.href = telLink()));
+  const phoneList = document.getElementById("phone-list");
+  if (phoneList) {
+    phoneList.innerHTML = SITE.phones.map((ph) =>
+      `<p><a href="${telLink(ph)}">${ph}</a> &middot; <a href="${waLink("Hi Classic Signs", ph)}" target="_blank" rel="noopener">WhatsApp</a></p>`).join("");
+  }
+  const emailList = document.getElementById("email-list");
+  if (emailList) {
+    emailList.innerHTML = SITE.emails.map((em) => `<p><a href="mailto:${em}">${em}</a></p>`).join("");
+  }
   document.querySelectorAll("[data-wa]").forEach((el) => (el.href = waLink(el.dataset.wa)));
   const map = document.getElementById("map");
   if (map) map.src = `https://www.google.com/maps?q=${encodeURIComponent(SITE.mapQuery)}&output=embed`;

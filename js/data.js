@@ -5,9 +5,9 @@ const SITE = {
   name: "Classic Signs",
   since: 2000,
   tagline: "LED Signboards · Neon · Metal Works",
-  phone: "+91 7396 680 385",
-  whatsapp: "917396680385",        // digits only, with country code
-  email: "info@classicsigns.in",   // TODO: real email
+  // Phone and WhatsApp numbers. The first one is used for the WhatsApp button, the quote form and "Call Now".
+  phones: ["+91 73966 80385", "+91 88868 98914"],
+  emails: ["classicsigns2000@gmail.com", "baseerkhizar@gmail.com", "syedbaseer00786@gmail.com"],
   address: "#16-8-920/1, beside Masjid-e-Mohiuddin unnisa begum, opposite Akbar Plaza, Malakpet Darussalam bank line, Hyderabad (T.G) 500036",
   hours: "Open every day, 10:00 AM to 11:00 PM IST",
   mapQuery: "Akbar Plaza, Malakpet, Hyderabad 500036",
