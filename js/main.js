@@ -52,6 +52,15 @@ function renderHeader() {
   });
 }
 
+function socialLinks() {
+  const links = [
+    [SITE.instagram, "Instagram"],
+    [SITE.google, "Google reviews & directions"],
+    [SITE.facebook, "Facebook"],
+  ].filter(([url]) => url);
+  return links.map(([url, label]) => `<li><a href="${url}" target="_blank" rel="noopener">${label} &#8599;</a></li>`).join("");
+}
+
 function renderFooter() {
   const el = document.getElementById("site-footer");
   if (!el) return;
@@ -77,6 +86,7 @@ function renderFooter() {
           <li>${SITE.address}</li>
           ${SITE.phones.map((ph) => `<li><a href="${telLink(ph)}">${ph}</a></li>`).join("")}
           ${SITE.emails.map((em) => `<li><a href="mailto:${em}">${em}</a></li>`).join("")}
+          ${socialLinks()}
         </ul>
       </div>
     </div>
@@ -197,6 +207,8 @@ function fillSiteInfo() {
     phoneList.innerHTML = SITE.phones.map((ph) =>
       `<p><a href="${telLink(ph)}">${ph}</a> &middot; <a href="${waLink("Hi Classic Signs", ph)}" target="_blank" rel="noopener">WhatsApp</a></p>`).join("");
   }
+  const social = document.getElementById("social-list");
+  if (social) social.innerHTML = socialLinks().replace(/<\/?li>/g, (t) => (t === "<li>" ? "<p>" : "</p>"));
   const emailList = document.getElementById("email-list");
   if (emailList) {
     emailList.innerHTML = SITE.emails.map((em) => `<p><a href="mailto:${em}">${em}</a></p>`).join("");
@@ -257,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const home = document.body.dataset.page === "home";
   renderProducts(home ? 8 : 0);
   renderGallery();
-  renderVideos(home ? 3 : 0);
+  renderVideos(home ? 4 : 0);
   setupQuoteForm();
   observeReveal();
 });
